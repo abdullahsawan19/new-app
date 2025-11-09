@@ -100,7 +100,7 @@ const CounterDate = () => {
       <div style={dateStyle}>
         {" "}
         <h2>
-          Date:{count} {date.toDateString()}
+          {count} days from today is {date.toDateString()}
         </h2>
       </div>
     </div>
