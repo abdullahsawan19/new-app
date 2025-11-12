@@ -3,106 +3,119 @@ import { useState } from "react";
 const CounterDate = () => {
   const [steps, setSteps] = useState(1);
   const [count, setCount] = useState(0);
-  const [date, setDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(new Date());
 
-  function incrementSteps() {
-    setSteps((prevSteps) => prevSteps + 1);
-  }
-  function decrementSteps() {
-    setSteps((prevSteps) => prevSteps - 1);
-  }
+  const displayedDate = new Date(startDate);
+  displayedDate.setDate(startDate.getDate() + count);
+
   function incrementCount() {
     setCount((prevCount) => prevCount + steps);
-    setDate((prevDate) => {
-      const newDate = new Date(prevDate);
-      newDate.setDate(prevDate.getDate() + steps);
-      return newDate;
-    });
   }
   function decrementCount() {
     setCount((prevCount) => prevCount - steps);
-    setDate((prevDate) => {
-      const newDate = new Date(prevDate);
-      newDate.setDate(prevDate.getDate() - steps);
-      return newDate;
-    });
+  }
+  function handelClick() {
+    setCount(0);
+    setSteps(1);
+    setStartDate(new Date());
   }
 
-  const containerStyle = {
-    textAlign: "center",
-    fontFamily: "Arial, sans-serif",
-    marginTop: "50px",
-  };
-
-  const buttonStyle = {
-    fontSize: "20px",
-    padding: "10px 20px",
-    margin: "10px",
-    borderRadius: "10px",
-    border: "none",
-    backgroundColor: "#007bff",
-    color: "white",
-    cursor: "pointer",
-    transition: "0.3s",
-  };
-
-  const titleStyle = {
-    fontSize: "22px",
-    margin: "10px 0",
-  };
-
-  const dateStyle = {
-    marginTop: "20px",
-    fontSize: "18px",
-    color: "#333",
-  };
-
   return (
-    <div style={containerStyle}>
-      <div>
-        <button
-          style={buttonStyle}
-          onMouseEnter={(e) => (e.target.style.backgroundColor = "#0056b3")}
-          onMouseLeave={(e) => (e.target.style.backgroundColor = "#007bff")}
-          onClick={incrementSteps}
-        >
-          +
-        </button>
-        <h1 style={titleStyle}>Steps{steps}</h1>
-        <button
-          style={buttonStyle}
-          onMouseEnter={(e) => (e.target.style.backgroundColor = "#0056b3")}
-          onMouseLeave={(e) => (e.target.style.backgroundColor = "#007bff")}
-          onClick={decrementSteps}
-        >
-          -
-        </button>
+    <div
+      style={{
+        fontFamily: "Arial, sans-serif",
+        textAlign: "center",
+        padding: "20px",
+        maxWidth: "400px",
+        margin: "50px auto",
+        border: "1px solid #ccc",
+        borderRadius: "10px",
+        boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+      }}
+    >
+      <div style={{ marginBottom: "20px" }}>
+        <input
+          type="range"
+          min="0"
+          max="10"
+          value={steps}
+          onChange={(e) => setSteps(+e.target.value)}
+          style={{ width: "80%", marginBottom: "10px" }}
+        />
+        <label style={{ display: "block", fontWeight: "bold" }}>
+          Steps: {steps}
+        </label>
       </div>
-      <div>
+
+      <div style={{ marginBottom: "20px" }}>
         <button
-          style={buttonStyle}
-          onMouseEnter={(e) => (e.target.style.backgroundColor = "#0056b3")}
-          onMouseLeave={(e) => (e.target.style.backgroundColor = "#007bff")}
           onClick={incrementCount}
+          style={{
+            padding: "8px 12px",
+            marginRight: "10px",
+            borderRadius: "6px",
+            border: "none",
+            backgroundColor: "#4CAF50",
+            color: "white",
+            cursor: "pointer",
+          }}
         >
           +
-        </button>{" "}
-        <h1 style={titleStyle}>Counter {count}</h1>
+        </button>
+        <input
+          type="text"
+          value={count}
+          onChange={(e) => setCount(+e.target.value)}
+          style={{
+            width: "50px",
+            textAlign: "center",
+            padding: "5px",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+          }}
+        />{" "}
         <button
-          style={buttonStyle}
-          onMouseEnter={(e) => (e.target.style.backgroundColor = "#0056b3")}
-          onMouseLeave={(e) => (e.target.style.backgroundColor = "#007bff")}
           onClick={decrementCount}
+          style={{
+            padding: "8px 12px",
+            marginLeft: "10px",
+            borderRadius: "6px",
+            border: "none",
+            backgroundColor: "#f44336",
+            color: "white",
+            cursor: "pointer",
+          }}
         >
           -
-        </button>{" "}
+        </button>
       </div>
-      <div style={dateStyle}>
-        {" "}
-        <h2>
-          {count} days from today is {date.toDateString()}
-        </h2>
+
+      <div style={{ marginBottom: "20px", fontSize: "16px" }}>
+        <span>
+          {count === 0
+            ? "Today is "
+            : count > 0
+            ? `${count} days from today is `
+            : `${Math.abs(count)} days ago was `}
+        </span>
+        <b>{displayedDate.toDateString()}</b>
       </div>
+
+      {count !== 0 || steps !== 1 ? (
+        <button
+          onClick={handelClick}
+          style={{
+            padding: "8px 16px",
+            borderRadius: "6px",
+            border: "none",
+            backgroundColor: "#2196F3",
+            color: "white",
+            cursor: "pointer",
+          }}
+        >
+          RESET
+        </button>
+      ) : null}
     </div>
   );
 };
