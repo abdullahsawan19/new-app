@@ -20,7 +20,7 @@ export default function App() {
     <div>
       {/* <Steps /> */}
       {/* <CounterDate /> */}
-      <Accordion faqs={faqs} />
+      <Accordion data={faqs} />
     </div>
   );
 }
